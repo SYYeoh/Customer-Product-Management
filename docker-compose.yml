@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  tidb:
+    image: pingcap/tidb:latest
+    container_name: tidb-container
+    ports:
+      - "4000:4000"
