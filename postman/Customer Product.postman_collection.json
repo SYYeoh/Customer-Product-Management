@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "2b3030b0-30ef-46be-a427-b39299ac7ad2",
+		"name": "Customer Product",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30817403"
+	},
+	"item": [
+		{
+			"name": "customers",
+			"item": [
+				{
+					"name": "countAllCustomers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerDetail\": {\r\n    \"firstName\" : \"B\",\r\n    \"status\": \"ACTIVE\"\r\n  },\r\n  \"startIndex\": 0,\r\n  \"maxPerPage\": 10\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/countAllCustomers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"countAllCustomers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "retrieveCustomers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerDetail\": {\r\n    \"custId\": 1,\r\n    // \"firstName\": \"John\",\r\n    // \"lastName\": \"Doe\",\r\n    // \"emailOffice\": \"john.doe@example.com\",\r\n    // \"emailPersonal\": \"john.doe@gmail.com\",\r\n    // \"addressLine\": \"123 Main St\",\r\n    // \"city\": \"New York\",\r\n    // \"postal\": \"10001\",\r\n    // \"firstName\": \"last\",\r\n    \"status\": \"ACTIVE\"\r\n  },\r\n  \"startIndex\": 0,\r\n  \"maxPerPage\": 10\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/retrieveCustomers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"retrieveCustomers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrdersByCustomerId",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerDetail\": {\r\n    \"custId\": 1\r\n  },\r\n  \"startIndex\": 0,\r\n  \"maxPerPage\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/getOrdersByCustomerId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"getOrdersByCustomerId"
+							]
+						},
+						"description": "get all order detail based on orderId with CustomerId"
+					},
+					"response": []
+				}
+			],
+			"description": "For API under CustomerWS"
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productDetail\": {\r\n        \"bookTitle\": \"Updated Title\",\r\n        \"bookGenre\": \"Updated Genre\",\r\n        \"bookPrice\": 29.99,\r\n        \"bookQuantity\": 50\r\n    },\r\n    \"startIndex\": 0,\r\n    \"maxPerPage\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/update/6?bookGenre=Updated Genre&bookTitle=Updated Title&bookPrice=29.99&bookQuantity=50",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"update",
+								"6"
+							],
+							"query": [
+								{
+									"key": "bookGenre",
+									"value": "Updated Genre"
+								},
+								{
+									"key": "bookTitle",
+									"value": "Updated Title"
+								},
+								{
+									"key": "bookPrice",
+									"value": "29.99"
+								},
+								{
+									"key": "bookQuantity",
+									"value": "50"
+								}
+							]
+						},
+						"description": "get all order detail based on orderId with CustomerId"
+					},
+					"response": []
+				}
+			],
+			"description": "For API under ProductWS"
+		}
+	]
+}
