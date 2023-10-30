@@ -1,11 +1,9 @@
 package com.example.customerproductmanagement.DTO;
 
 import CommonUtil.Paging;
-import com.example.customerproductmanagement.Entity.OrdersEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import java.util.Collection;
 import java.util.List;
 
 @Data

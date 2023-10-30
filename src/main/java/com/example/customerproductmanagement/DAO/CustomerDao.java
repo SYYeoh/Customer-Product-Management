@@ -3,35 +3,41 @@ package com.example.customerproductmanagement.DAO;
 import com.example.customerproductmanagement.DTO.CustomerDetail;
 import com.example.customerproductmanagement.DTO.CustomerRequest;
 import com.example.customerproductmanagement.DTO.CustomerResponse;
-import com.example.customerproductmanagement.DTO.OrderDetail;
 import com.example.customerproductmanagement.Entity.CustomersEntity;
-import com.example.customerproductmanagement.Entity.OrderItemEntity;
 import com.example.customerproductmanagement.Entity.OrdersEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Repository
 public class CustomerDao{
     @PersistenceContext
     private EntityManager entityManager;
+    private static final Logger log = LogManager.getLogger(CustomerDao.class);
 
     private int getCustId() {
+        log.info("Getting CustID from SEQ_CUSTOMER");
         return (int) entityManager.createNativeQuery("SELECT NEXTVAL('SEQ_CUSTOMER')").getSingleResult();
     }
 
     @Transactional
     public void persistCustomer(CustomersEntity entity) {
-        int generatedId = getCustId();
-        entity.setCustId(generatedId);
-        entityManager.persist(entity);
+        try {
+            int generatedId = getCustId();
+            log.info("New custId {}", generatedId);
+            entity.setCustId(generatedId);
+            entityManager.persist(entity);
+        } catch (Exception e) {
+            log.error("Error while persisting entity: {}", e.getMessage());
+        }
     }
 
     public List<CustomersEntity> retrieveCustomers(CustomerRequest request) {
@@ -92,9 +98,6 @@ public class CustomerDao{
         CriteriaQuery<CustomersEntity> query = builder.createQuery(CustomersEntity.class);
         Root<CustomersEntity> customerRoot = query.from(CustomersEntity.class);
 
-        // Create a fetch join to retrieve associated entities
-        Join<CustomersEntity, OrdersEntity> ordersJoin = customerRoot.join("ordersEntityCollection", JoinType.LEFT);
-
         List<Predicate> predicates = new ArrayList<>();
         CustomerDetail detail = request.getCustomerDetail();
         if (detail.getCustId() != null) {
@@ -105,10 +108,8 @@ public class CustomerDao{
             query.where(predicates.toArray(new Predicate[0]));
         }
 
-        // Ensure distinct results
         query.distinct(true);
 
-        // Select the root entity (CustomersEntity) to be included in the result
         query.select(customerRoot);
 
         TypedQuery<CustomersEntity> typedQuery = entityManager.createQuery(query);

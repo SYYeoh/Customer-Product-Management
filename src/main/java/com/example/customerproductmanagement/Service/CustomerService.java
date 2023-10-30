@@ -3,13 +3,10 @@ package com.example.customerproductmanagement.Service;
 import com.example.customerproductmanagement.DAO.CustomerDao;
 import com.example.customerproductmanagement.DTO.*;
 import com.example.customerproductmanagement.Entity.CustomersEntity;
-import com.example.customerproductmanagement.Entity.OrderHistoryEntity;
-import com.example.customerproductmanagement.Entity.OrdersEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +15,6 @@ import java.util.stream.Collectors;
 public class CustomerService {
     @Autowired
     private CustomerDao customerDao;
-
-    public void saveCustomer(CustomersEntity entity) {
-        customerDao.persistCustomer(entity);
-    }
 
     public CustomerResponse retrieveCustomers(CustomerRequest request) {
         List<CustomersEntity> customers = customerDao.retrieveCustomers(request);
@@ -84,9 +77,7 @@ public class CustomerService {
 
                                         List<OrderItemDetail> orderItemDetails = order.getOrderItemEntityCollection().stream()
                                                 .map(orderItem -> {
-                                                    OrderItemDetail orderItemDetail = new OrderItemDetail();
-
-                                                    return orderItemDetail;
+                                                    return new OrderItemDetail();
                                                 })
                                                 .collect(Collectors.toList());
 

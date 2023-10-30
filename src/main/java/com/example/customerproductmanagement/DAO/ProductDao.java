@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Repository
 public class ProductDao{
@@ -20,18 +19,22 @@ public class ProductDao{
     private static final Logger log = LogManager.getLogger(ProductDao.class);
     @Transactional
     public void softDeleteProduct(Integer pid) {
+        log.info("Finding product with ID: {}", pid);
         ProductsEntity product = entityManager.find(ProductsEntity.class, pid);
-        if (product != null) {
-            product.setDeleted(true);
+        if (product == null) {
+            log.warn("Product with ID {} not found", pid);
+            throw new ProductNotFoundException("Product with ID " + pid + " not found");
         }
+        product.setDeleted(true);
+        log.info("Soft Delete product with ID: {}", pid);
     }
 
     @Transactional
     public void updateProduct(Integer pid, String bookTitle, String bookGenre, BigDecimal bookPrice, int bookQuantity) {
-        log.info("Updating product with ID: " + pid);
+        log.info("Finding product with ID: " + pid);
         ProductsEntity product = entityManager.find(ProductsEntity.class, pid);
         if (product == null) {
-            log.warn("Product with ID " + pid + " not found");
+            log.warn("Product with ID {} not found", pid);
             throw new ProductNotFoundException("Product with ID " + pid + " not found");
         }
 
@@ -39,6 +42,7 @@ public class ProductDao{
         product.setBookGenre(bookGenre);
         product.setBookPrice(bookPrice);
         product.setBookQuantity(bookQuantity);
-        log.info("Product updated successfully: " + product);
+        log.info("Updating product with ID: {}", pid);
+        log.info("Product updated successfully: {}", product);
     }
 }
