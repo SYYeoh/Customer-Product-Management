@@ -1,11 +1,9 @@
 package com.example.customerproductmanagement.WS;
 
-import com.example.customerproductmanagement.DTO.*;
-import com.example.customerproductmanagement.Entity.ProductsEntity;
 import com.example.customerproductmanagement.Service.ProductService;
-import jakarta.validation.Valid;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +15,11 @@ public class ProductWS {
     @Autowired
     private ProductService productService;
 
+    private static final Logger log = LogManager.getLogger(ProductWS.class);
+
     @DeleteMapping("/delete/{pid}")
     public ResponseEntity<String> softDeleteProduct(@PathVariable Integer pid) {
+        log.info("url: /products/delete/{}", pid);
         productService.softDeleteProduct(pid);
         return ResponseEntity.ok("Product soft-deleted successfully.");
     }
@@ -31,6 +32,7 @@ public class ProductWS {
             @RequestParam BigDecimal bookPrice,
             @RequestParam int bookQuantity
     ) {
+        log.info("url: /products/update/{}", pid);
         productService.updateProduct(pid, bookTitle, bookGenre, bookPrice, bookQuantity);
         return ResponseEntity.ok("Product updated successfully.");
     }
