@@ -5,16 +5,17 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CustomerDetail {
-    private Integer custId;
-    private String firstName;
-    private String lastName;
+public class OrderDetail {
+    private int orderId;
+    private int custId;
+    private String first_name;
+    private String last_name;
     private String emailOffice;
     private String emailPersonal;
     private String addressLine;
     private String city;
     private String postal;
-    private String status;
+    private String sku;
 
-    private List<OrderDetail> orderDetailList;
+    private List<OrderItemDetail> orderItemDetailList;
 }

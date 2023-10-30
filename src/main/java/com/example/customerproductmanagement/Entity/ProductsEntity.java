@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -11,14 +13,15 @@ import java.util.Collection;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE products SET deleted = true WHERE pid = ?")
+@Where(clause = "deleted = false")
 @Data
 @Table(name = "products", schema = "customer_product", catalog = "")
 public class ProductsEntity {
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PRODUCT")
-    @SequenceGenerator(name = "SEQ_PRODUCT", sequenceName = "SEQ_PRODUCT", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "pid", nullable = false)
-    private int pid;
+    private Integer pid;
     @Basic
     @Column(name = "book_title", nullable = false, length = 255)
     private String bookTitle;
@@ -34,6 +37,9 @@ public class ProductsEntity {
     @Basic
     @Column(name = "status", nullable = true, length = 255)
     private String status;
+    @Basic
+    @Column(name = "deleted")
+    private boolean deleted;
     @OneToMany(mappedBy = "productsEntity")
     private Collection<OrderItemEntity> orderItemEntityCollection;
     @OneToMany(mappedBy = "productsEntity")
