@@ -34,8 +34,9 @@ Setup
 1. Locate **docker-compose.yml** *this will create a TiDB container*
 2. At current path, run *docker-compose up -d* in cmd prompt to start up docker
 3. Locate **root > sql > V0__Initialize_table.sql**, paste the script prepared into database tool to insert mock data
-4. Run *CustomerProductManagementApplication* to start up Spring Boot
-5. Done
+4. Locate **root > postman > Customer Product.postman_collection.json**, to import into postman to run
+5. Run *CustomerProductManagementApplication* to start up Spring Boot
+6. Done
 ___
 # API ready to run
 > Product WebService
